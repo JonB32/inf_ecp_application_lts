@@ -80,6 +80,7 @@ module "ec2" {
   vpc_security_group_ids = ["${module.vault_security_group.this_security_group_id}"]
 
   tags = {
-    Name = "vault"
+    Name = "${var.instance_name}"
+    App  = "vault"
   }
 }
