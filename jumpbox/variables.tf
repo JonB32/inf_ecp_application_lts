@@ -4,6 +4,10 @@ variable "instance_name" {
   default = "jumpbox"
 }
 
+variable "is_jump" {
+  default = 0
+}
+
 variable "instance_type" {
   default = "t2.micro"
 }

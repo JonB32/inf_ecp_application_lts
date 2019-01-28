@@ -99,6 +99,11 @@ variable "tags" {
   default     = {}
 }
 
+variable "is_jump" {
+  description = "Provides additional bootstrapping for jump server"
+  default     = 0
+}
+
 variable "volume_tags" {
   description = "A mapping of tags to assign to the devices created by the instance at launch time"
   default     = {}

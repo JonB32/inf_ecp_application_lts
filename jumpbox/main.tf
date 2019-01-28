@@ -33,7 +33,7 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
-module "ssh_security_group" {
+module "jumpbox_security_group" {
   source = "git@github.com:JonB32/inf_ecp_networking.git//modules/security-group/ssh/"
 
   name        = "sgECP_ssh_incoming"
@@ -49,14 +49,14 @@ module "ssh_security_group" {
       to_port     = 3128
       protocol    = "tcp"
       description = "User-service ports"
-      cidr_blocks = "${data.aws_vpc.selected.cidr_block}"
+      cidr_blocks = "10.10.0.0/16"
     },
   ]
 
   egress_rules = ["all-all"]
 
   tags = {
-    Name = "sgSSH"
+    Name = "sgSSHProxy"
   }
 }
 
@@ -68,9 +68,10 @@ module "ec2" {
   name                        = "${var.instance_name}"
   ami                         = "${data.aws_ami.amazon_linux.id}"
   key_name                    = "${var.key_name}"
+  is_jump                     = "${var.is_jump}"
   instance_type               = "${var.instance_type}"
   subnet_id                   = "${element(data.aws_subnet_ids.public.ids, 0)}"
-  vpc_security_group_ids      = ["${module.ssh_security_group.this_security_group_id}"]
+  vpc_security_group_ids      = ["${module.jumpbox_security_group.this_security_group_id}"]
   associate_public_ip_address = true
 
   tags = {

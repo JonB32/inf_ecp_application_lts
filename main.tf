@@ -14,6 +14,7 @@ module "jumpbox01" {
   vpc_id              = "${local.vpc_id}"
   source              = "./jumpbox"
   instance_name       = "jumpbox01"
+  is_jump             = 1
   key_name            = "AWSJenkinsWS-pem"
   ingress_cidr_blocks = ["0.0.0.0/0"]
 }
